@@ -1,0 +1,13 @@
+{
+  "include": ["./src"],
+  "compilerOptions": {
+      "outDir": "./dist/",
+      "sourceMap": true,
+      "resolveJsonModule": true,
+      "noImplicitAny": true,
+      "esModuleInterop": true,
+      "module": "commonjs",
+      "target": "es5",
+      "jsx": "react"
+  }
+}

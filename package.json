@@ -1,0 +1,23 @@
+{
+  "name": "zksync500",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Jeremi G <gendronjeremi@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start:dev": "webpack-dev-server --config webpack.dev.config.js"
+  },
+  "dependencies": {
+    "@ethersproject/logger": "^5.0.0",
+    "big.js": "^6.0.2",
+    "ethers": "^5.0.23",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "zksync-checkout": "^0.0.8"
+  },
+  "devDependencies": {
+    "@types/big.js": "^6.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0"
+  }
+}
