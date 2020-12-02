@@ -6,9 +6,13 @@ import { PaymentForm } from "./components/payment-form";
 
 function App(): JSX.Element {
   return (
-    <UrlContext.Provider value={getUrlParams()}>
-      <PaymentForm />
-    </UrlContext.Provider>
+    <>
+      <h1 style={{ textAlign: "center" }}>zksync500</h1>
+      <br />
+      <UrlContext.Provider value={getUrlParams()}>
+        <PaymentForm />
+      </UrlContext.Provider>
+    </>
   );
 }
 
