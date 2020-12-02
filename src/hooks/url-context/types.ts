@@ -1,6 +1,6 @@
 export type UrlParams = {
-  to?: string
-  amount?: string
-  token?: string
-  memo?: string
-}
+  to?: string;
+  amount?: string;
+  token?: string;
+  memo?: string;
+};
