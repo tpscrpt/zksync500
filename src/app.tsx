@@ -5,13 +5,13 @@ import { getUrlParams } from "./hooks/url-context/actions";
 import { PaymentForm } from "./components/payment-form";
 import { EthersManager } from "./components/ethers-manager";
 
-function App() {
+function App(): JSX.Element {
   return (
-    <UrlContext.Provider value={getUrlParams()}>
-      <EthersManager>
+    <EthersManager>
+      <UrlContext.Provider value={getUrlParams()}>
         <PaymentForm />
-      </EthersManager>
-    </UrlContext.Provider>
+      </UrlContext.Provider>
+    </EthersManager>
   );
 }
 
