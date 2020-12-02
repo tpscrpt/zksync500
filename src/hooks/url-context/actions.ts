@@ -5,5 +5,6 @@ export function getUrlParams(): UrlParams {
   const to = urlParams.get("to");
   const token = urlParams.get("token")
   const amount = urlParams.get("amount");
-  return { to, token, amount }
+  const memo = urlParams.get("memo");
+  return { to, token, amount, memo }
 }
