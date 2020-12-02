@@ -1,17 +1,15 @@
 import * as React from "react";
-import { useContext } from "react";
-import { EthersContext } from "../../hooks/ethers-context";
+import { network } from "../../config/network";
 
 type Props = {
   txHash: string;
 };
 
 export function EtherscanLink({ txHash }: Props): JSX.Element {
-  const { network } = useContext(EthersContext);
   const url =
     network === "mainnet"
-      ? `https://etherscan.io/tx/${txHash}`
-      : `https://${network}.etherscan.io/tx/${txHash}`;
+      ? `https://zkscan.io/transactions/${txHash}`
+      : `https://${network}.zkscan.io/transactions/${txHash}`;
 
-  return <a href={url}>View on etherscan</a>;
+  return <a href={url}>View on zkscan</a>;
 }
