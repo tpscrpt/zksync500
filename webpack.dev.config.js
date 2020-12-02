@@ -6,7 +6,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 require("dotenv/config");
 
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: "./src/app.tsx",
   output: {
     path: path.resolve(__dirname, "dev"),
     filename: "[name].[hash:10].bundle.js",
@@ -46,6 +46,7 @@ module.exports = {
           loader: "babel-loader",
           options: {
             presets: ["@babel/preset-typescript", "@babel/preset-env", "@babel/preset-react"],
+            plugins: [["@babel/transform-runtime"]],
           },
         },
       },
@@ -79,9 +80,7 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.EnvironmentPlugin([
-      "NODE_ENV",
-    ]),
+    new webpack.EnvironmentPlugin(["NODE_ENV"]),
     new CopyPlugin({
       patterns: [{ from: "public/favicon.ico", to: "favicon.ico" }],
     }),
