@@ -1,5 +1,6 @@
 const glob = require("glob");
 const path = require("path");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const fileMatches = glob.sync("*/index.ts", {
   cwd: path.join(__dirname, "src/functions"),
@@ -38,4 +39,5 @@ module.exports = {
     extensions: [".ts", ".js", ".json"],
   },
   externals: ["aws-sdk"],
+  plugins: [new CleanWebpackPlugin()],
 };
