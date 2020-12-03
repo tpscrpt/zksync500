@@ -6,10 +6,13 @@
   "author": "Jeremi G <gendronjeremi@gmail.com>",
   "license": "MIT",
   "workspaces": [
-    "./packages/*"
+    "packages/*"
   ],
   "scripts": {
-    "frontend:start:dev": "yarn workspace @zksync500/frontend start:dev"
+    "frontend:start:dev": "yarn workspace @zksync500/frontend start:dev",
+    "frontend:build": "yarn workspace @zksync500/frontend build",
+    "backend:build": "yarn workspace @zksync500/backend build",
+    "backend:deploy": "yarn workspace @zksync500/backend deploy"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.9.0",
@@ -17,6 +20,7 @@
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "typescript": "^4.1.2"
   }
 }
