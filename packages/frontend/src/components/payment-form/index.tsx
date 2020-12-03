@@ -11,8 +11,10 @@ import { inputHandler } from "../../utils/input-handler";
 import { WaitingOn } from "./components/waiting-on";
 import "./styles.css";
 import { network } from "../../config/network";
-import { Button, Container, Dropdown, FormControl, InputGroup } from "react-bootstrap";
-import { TokenOption } from "./components/token-option";
+import { Button, Dropdown, FormControl, InputGroup } from "react-bootstrap";
+import { TokenOption } from "../token-option";
+import { supportedTokensList } from "../supported-tokens-list";
+import { Spinner } from "../spinner";
 
 export function PaymentForm(): JSX.Element {
   const { to: urlTo, amount: urlAmount, token: urlToken, memo: urlMemo } = useContext(UrlContext);
@@ -20,7 +22,7 @@ export function PaymentForm(): JSX.Element {
   const [checkout] = useState(new CheckoutManager(network));
   const [to, setTo] = useState(urlTo ?? "");
   const [from, setFrom] = useState("");
-  const [amount, setAmount] = useState(urlAmount ?? "0");
+  const [amount, setAmount] = useState(urlAmount ?? "");
   const [token, setToken] = useState(urlToken ?? "DAI");
   const [memo, setMemo] = useState(urlMemo ?? "");
   const [feeToken, setFeeToken] = useState("ETH");
@@ -31,18 +33,24 @@ export function PaymentForm(): JSX.Element {
   const [transactionInfo, setTransactionInfo] = useState<TransactionInfo | undefined>();
 
   const weiAmount = () =>
-    Big(amount).times(Big(10).pow(supportedTokens[token].decimals)).toString();
+    Big(amount)
+      .times(Big(10).pow(supportedTokens[token as keyof typeof supportedTokens].decimals))
+      .toString();
 
   const toValid = () => ethers.utils.isAddress(to);
   const fromValid = () => ethers.utils.isAddress(from);
   const amountValid = () => !!amount && Big(amount).gt(0);
 
   useEffect(() => {
-    if (!amount) return;
+    if (!amount || !toValid() || !token) return;
     checkout
       .estimateBatchFee([{ amount: weiAmount(), to, token, description: memo }], feeToken)
       .then((val) =>
-        setEstimatedFee(Big(val).div(Big(10).pow(supportedTokens[feeToken].decimals)).toString()),
+        setEstimatedFee(
+          Big(val)
+            .div(Big(10).pow(supportedTokens[feeToken as keyof typeof supportedTokens].decimals))
+            .toString(),
+        ),
       );
 
     if (from && fromValid()) {
@@ -76,17 +84,6 @@ export function PaymentForm(): JSX.Element {
     setWaitingOn("");
   }
 
-  const supportedTokensList = (salt: string, setter: (token: string) => void) =>
-    Object.entries(supportedTokens).map(([symbol, { icon }]) => (
-      <Dropdown.Item
-        key={`${salt}-${symbol}`}
-        style={{ display: "flex", alignItems: "center" }}
-        onClick={() => setter(symbol)}
-      >
-        <TokenOption symbol={symbol} icon={icon} />
-      </Dropdown.Item>
-    ));
-
   return (
     <div className="PaymentForm">
       {transactionInfo ? (
@@ -94,7 +91,7 @@ export function PaymentForm(): JSX.Element {
       ) : waitingOn ? (
         <WaitingOn txHash={waitingOn} />
       ) : (
-        <Container fluid style={{ maxWidth: "500px" }}>
+        <>
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
               <InputGroup.Text id="basic-addon1">To</InputGroup.Text>
@@ -104,6 +101,7 @@ export function PaymentForm(): JSX.Element {
               aria-label="Recipient's Address"
               aria-describedby="basic-addon1"
               value={to}
+              isInvalid={!!to && !toValid()}
               onChange={inputHandler(setTo)}
             />
           </InputGroup>
@@ -132,6 +130,7 @@ export function PaymentForm(): JSX.Element {
               aria-describedby="basic-addon2"
               inputMode="decimal"
               value={amount}
+              isInvalid={!!amount && !amountValid()}
               onChange={inputHandler(setAmount)}
             />
             <Dropdown
@@ -140,7 +139,10 @@ export function PaymentForm(): JSX.Element {
               id="input-group-dropdown-2"
             >
               <Dropdown.Toggle style={{ display: "flex", alignItems: "center" }} variant="light">
-                <TokenOption symbol={token} icon={supportedTokens[token].icon} />
+                <TokenOption
+                  symbol={token}
+                  icon={supportedTokens[token as keyof typeof supportedTokens].icon}
+                />
               </Dropdown.Toggle>
               <Dropdown.Menu>{supportedTokensList("token", setToken)}</Dropdown.Menu>
             </Dropdown>
@@ -150,14 +152,17 @@ export function PaymentForm(): JSX.Element {
             <InputGroup.Prepend>
               <InputGroup.Text id="basic-addon3">Auto-Fee</InputGroup.Text>
             </InputGroup.Prepend>
-            <InputGroup.Prepend style={{ justifySelf: "stretch", flex: "1 1 auto" }}>
+            <InputGroup.Prepend style={{ flex: "1 1 auto" }}>
               <InputGroup.Text id="basic-addon4" style={{ width: "100%" }}>
                 {estimatedFee}
               </InputGroup.Text>
             </InputGroup.Prepend>
             <Dropdown color="outline-secondary" id="input-group-dropdown-3">
               <Dropdown.Toggle style={{ display: "flex", alignItems: "center" }} variant="light">
-                <TokenOption symbol={feeToken} icon={supportedTokens[feeToken].icon} />
+                <TokenOption
+                  symbol={feeToken}
+                  icon={supportedTokens[feeToken as keyof typeof supportedTokens].icon}
+                />
               </Dropdown.Toggle>
               <Dropdown.Menu>{supportedTokensList("feeToken", setFeeToken)}</Dropdown.Menu>
             </Dropdown>
@@ -181,9 +186,9 @@ export function PaymentForm(): JSX.Element {
             onClick={onSubmit}
             disabled={!toValid() || !fromValid() || !amountValid() || submitting}
           >
-            Send Transaction
+            {submitting ? <Spinner size={24} /> : "Send Transaction"}
           </Button>
-        </Container>
+        </>
       )}
     </div>
   );
