@@ -1,14 +1,15 @@
 {
   "name": "@zksync500/frontend",
   "version": "1.0.0",
-  "main": "index.js",
   "author": "Jeremi G <gendronjeremi@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "build": "NODE_ENV=production webpack --config webpack.config.js",
     "start:dev": "webpack-dev-server --config webpack.dev.config.js"
   },
   "dependencies": {
     "@ethersproject/logger": "^5.0.0",
+    "@zksync500/shared": "1.0.0",
     "big.js": "^6.0.2",
     "bootstrap": "^4.5.3",
     "ethers": "^5.0.23",
@@ -34,6 +35,7 @@
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
     "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.3.2",
     "css-loader": "^5.0.1",
     "dotenv": "^8.2.0",

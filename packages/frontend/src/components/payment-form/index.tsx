@@ -5,15 +5,14 @@ import { useContext, useState, useEffect } from "react";
 import { UrlContext } from "../../hooks/url-context";
 import { CheckoutManager } from "zksync-checkout";
 import { TransactionInfo } from "zksync-checkout/build/types";
-import { supportedTokens } from "../../config/supported-tokens";
+import { supportedTokensWithIcons as supportedTokens } from "../../config/supported-tokens";
 import { TxInfo } from "./components/tx-info";
 import { inputHandler } from "../../utils/input-handler";
 import { WaitingOn } from "./components/waiting-on";
 import "./styles.css";
 import { network } from "../../config/network";
-import { Button, Container, Dropdown, Form, FormControl, InputGroup, Row } from "react-bootstrap";
+import { Button, Container, Dropdown, FormControl, InputGroup } from "react-bootstrap";
 import { TokenOption } from "./components/token-option";
-import Feedback from "react-bootstrap/esm/Feedback";
 
 export function PaymentForm(): JSX.Element {
   const { to: urlTo, amount: urlAmount, token: urlToken, memo: urlMemo } = useContext(UrlContext);

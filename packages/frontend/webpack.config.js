@@ -7,11 +7,11 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 require("dotenv/config");
 
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: "./src/app.tsx",
   output: {
     filename: "[name].[contenthash:10].bundle.js",
     chunkFilename: "[name].[contenthash:10].chunk.js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, ".build"),
   },
 
   mode: "production",
@@ -63,36 +63,14 @@ module.exports = {
     },
   },
   plugins: [
-    new webpack.EnvironmentPlugin([
-      "NODE_ENV",
-      "NOTIFY_ID",
-      "BLOCKNATIVE_API_KEY",
-      "BLOCKNATIVE_NETWORK",
-      "FORTMATIC_API_KEY",
-      "FORTMATIC_NETWORK",
-      "INTEGRATIONS_DISABLED",
-      "PLAID_ENVIRONMENT",
-      "PLAID_CLIENT_ID",
-      "DATA_PROVIDER_URL",
-      "INFURA_API_KEY",
-    ]),
+    new webpack.EnvironmentPlugin(["NODE_ENV"]),
     new CopyPlugin({
       patterns: [{ from: "public/favicon.ico", to: "favicon.ico" }],
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "public/index.html"),
-      filename: path.resolve(__dirname, "dist/index.html"),
+      filename: path.resolve(__dirname, ".build/index.html"),
     }),
   ],
-  // When importing a module whose path matches one of the following, just
-  // assume a corresponding global variable exists and use that instead.
-  // This is important because it allows us to avoid bundling all of our
-  // dependencies, which allows browsers to cache those libraries between builds.
-  externals: {
-    react: "React",
-    "react-dom": "ReactDOM",
-    fortmatic: "Fortmatic",
-    wyre: "Wyre",
-  },
 };

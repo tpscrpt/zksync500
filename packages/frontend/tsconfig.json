@@ -1,5 +1,6 @@
 {
   "include": ["./src"],
+  "exclude": ["*.js"],
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "lib": ["ESNext", "DOM"],
