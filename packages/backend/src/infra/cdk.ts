@@ -4,6 +4,7 @@ import * as ApiGateway from "@aws-cdk/aws-apigateway";
 import * as Lambda from "@aws-cdk/aws-lambda";
 import * as DynamoDB from "@aws-cdk/aws-dynamodb";
 import { tables } from "../config/tables";
+import { deploySalt } from "../config/deploy-salt";
 
 export class ShortStack extends CDK.Stack {
   constructor(app: CDK.App, id: string) {
@@ -46,5 +47,5 @@ export class ShortStack extends CDK.Stack {
 }
 
 const app = new CDK.App();
-new ShortStack(app, "ShortStack");
+new ShortStack(app, "ShortStack" + deploySalt);
 app.synth();
