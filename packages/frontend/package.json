@@ -5,11 +5,12 @@
   "license": "MIT",
   "scripts": {
     "build": "NODE_ENV=production webpack --config webpack.config.js",
-    "start:dev": "webpack-dev-server --config webpack.dev.config.js"
+    "start:dev": "NODE_ENV=development webpack-dev-server --config webpack.dev.config.js"
   },
   "dependencies": {
     "@ethersproject/logger": "^5.0.0",
     "@zksync500/shared": "1.0.0",
+    "@zksync500/backend": "1.0.0",
     "big.js": "^6.0.2",
     "bootstrap": "^4.5.3",
     "ethers": "^5.0.23",
