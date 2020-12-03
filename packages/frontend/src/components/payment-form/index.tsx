@@ -133,12 +133,11 @@ export function PaymentForm(): JSX.Element {
               isInvalid={!!amount && !amountValid()}
               onChange={inputHandler(setAmount)}
             />
-            <Dropdown
-              as={InputGroup.Append}
-              variant="outline-secondary"
-              id="input-group-dropdown-2"
-            >
-              <Dropdown.Toggle style={{ display: "flex", alignItems: "center" }} variant="light">
+            <Dropdown color="outline-secondary" id="input-group-dropdown-2">
+              <Dropdown.Toggle
+                style={{ display: "inline-flex", alignItems: "center" }}
+                variant="light"
+              >
                 <TokenOption
                   symbol={token}
                   icon={supportedTokens[token as keyof typeof supportedTokens].icon}
