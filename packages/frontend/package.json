@@ -1,5 +1,5 @@
 {
-  "name": "zksync500",
+  "name": "@zksync500/frontend",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Jeremi G <gendronjeremi@gmail.com>",

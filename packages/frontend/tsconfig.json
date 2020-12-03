@@ -1,13 +1,10 @@
 {
   "include": ["./src"],
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "lib": ["ESNext", "DOM"],
-    "outDir": "./dist/",
+    "outDir": "./.build",
     "sourceMap": true,
-    "resolveJsonModule": true,
-    "noImplicitAny": true,
-    "esModuleInterop": true,
-    "module": "commonjs",
     "target": "es5",
     "jsx": "react"
   }
