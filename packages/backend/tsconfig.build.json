@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["./src"],
+  "exclude": ["./src/infra"],
+  "compilerOptions": {
+    "target": "ES5",
+    "noEmit": false,
+    "inlineSourceMap": false,
+    "sourceMap": false,
+    "removeComments": true
+  }
+}
