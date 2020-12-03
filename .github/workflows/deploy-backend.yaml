@@ -1,0 +1,31 @@
+name: Deploy backend
+
+on:
+  push:
+    branches:
+      - deploy/backend
+      - deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@
+      with:
+        node-version: 12
+    - uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+    - name: "Inject variables"
+      run: |
+        sed -i 's/__APP_URL__/${{ secrets.APP_URL }}/g' packages/backend/src/config/app-url.ts
+        sed -i 's/__DEPLOY_SALY__/${{ secrets.DEPLOY_SALT }}/g' packages/backend/src/config/deploy-salt.ts 
+    - name: "Install dependencies"
+      run: yarn
+    - name: "Build lambdas"
+      run: yarn backend:build
+    - name: "Deploy stack"
+      run: yarn backend:deploy
