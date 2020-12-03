@@ -1,6 +1,6 @@
 {
   "exclude": ["**/*.js"],
-  "include": ["./packages/frontend", "./packages/backend"],
+  "include": ["./packages/frontend", "./packages/backend", "./packages/shared"],
   "compilerOptions": {
     "module": "commonjs",
     "allowJs": true,
