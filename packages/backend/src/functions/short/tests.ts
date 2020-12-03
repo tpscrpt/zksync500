@@ -15,7 +15,10 @@ export const shortTests: Tested<ShortBody> = {
     },
   },
   token: {
-    test: Object.keys(supportedTokens).includes,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    test: (val: any) => {
+      return Object.keys(supportedTokens).includes(val);
+    },
   },
   memo: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
