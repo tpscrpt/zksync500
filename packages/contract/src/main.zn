@@ -1,0 +1,75 @@
+mod types;
+mod constants;
+
+use std::collections::MTreeMap;
+
+use self::types::Address;
+use self::types::Balance;
+use self::types::token_address::TokenAddress;
+
+struct Data {
+    recipient: Address,
+    token_address: Address,
+    amount: u248,
+}
+
+//!
+//! The 'short' contract entry.
+//!
+contract Short {
+  // Amount in dollars
+  pub value: u64;
+  // Owner of the contract
+  pub owner: Address;
+
+  pub shorts: MTreeMap<u248, Data>;
+
+  pub fn new(_value: u64, _owner: Address) -> Self {
+    Self {
+        value: _value,
+        owner: _owner,
+    }
+  }
+
+  /// Receives a bit array and transfer params
+  pub fn create(mut self, _short: u248, _recipient: Address, _token_address: Address, _amount: u248) {
+    let token_address = TokenAddress::from_address(zksync::msg.token_address);
+    let dollar_amount: u64 = zksync::msg.amount / (token_address.precision() as u248 * token_address.magnitude_diff());
+
+    // Check msg value
+    require(
+      dollar_amount >= self.value,
+      "Dollar amount too low"
+    );
+
+    // Check recipient is self contract
+    require(
+      zksync::msg.recipient == self.address,
+      "Transaction recipient is not the contract"
+    );
+
+    self.shorts.insert(_short, Data {
+      recipient: _recipient,
+      token_address: _token_address,
+      amount: _amount,
+    });
+  }
+
+  pub fn withdraw(mut self, _recipient: Address, _token_address: Address, _amount: u248) {
+    self.only_owner();
+    zksync::transfer(_recipient, _token_address, _amount);
+  }
+
+  pub fn set_owner(mut self, _owner: Address) {
+    self.only_owner();
+    self.owner = _owner;
+  }
+
+  pub fn set_value(mut self, _value: u64) {
+    self.value = _value;
+  }
+
+  fn only_owner(self) {
+    require(zksync::msg.sender == self.owner, "Function can only be executed by owner");
+  }
+}

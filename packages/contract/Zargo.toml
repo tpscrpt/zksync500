@@ -1,0 +1,4 @@
+[project]
+name = "short"
+type = "contract"
+version = "0.1.0"
