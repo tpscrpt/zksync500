@@ -80,7 +80,7 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.EnvironmentPlugin(["NODE_ENV"]),
+    new webpack.EnvironmentPlugin(["NODE_ENV", "RPC_URL_1", "RPC_URL_4"]),
     new CopyPlugin({
       patterns: [{ from: "public/favicon.ico", to: "favicon.ico" }],
     }),

@@ -31,7 +31,6 @@ export function BuilderForm(): JSX.Element {
 
   async function onSubmit(): Promise<void> {
     setSubmitting(true);
-
     const response = await shortCall({
       amount,
       to,
