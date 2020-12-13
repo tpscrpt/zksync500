@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "commonjs",
+    "outDir": ".build"
+  },
+  "include": ["./scripts", "./test", "./config", "./artifacts/contracts/*/*.json"],
+  "files": ["./hardhat.config.js"]
+}
