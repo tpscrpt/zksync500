@@ -24,11 +24,11 @@ interface ShortInterface extends ethers.utils.Interface {
   functions: {
     "changeCreator(bytes32,address)": FunctionFragment;
     "convert(bytes32)": FunctionFragment;
-    "create(bytes32,uint256,address,address)": FunctionFragment;
+    "create(bytes32,uint256,address,address,string)": FunctionFragment;
     "owner()": FunctionFragment;
     "shortCounter()": FunctionFragment;
     "shortIds(bytes32)": FunctionFragment;
-    "update(bytes32,uint256,address,address)": FunctionFragment;
+    "update(bytes32,uint256,address,address,string)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -38,7 +38,7 @@ interface ShortInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: "convert", values: [BytesLike]): string;
   encodeFunctionData(
     functionFragment: "create",
-    values: [BytesLike, BigNumberish, string, string]
+    values: [BytesLike, BigNumberish, string, string, string]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -48,7 +48,7 @@ interface ShortInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: "shortIds", values: [BytesLike]): string;
   encodeFunctionData(
     functionFragment: "update",
-    values: [BytesLike, BigNumberish, string, string]
+    values: [BytesLike, BigNumberish, string, string, string]
   ): string;
 
   decodeFunctionResult(
@@ -98,10 +98,11 @@ export class Short extends Contract {
       _short: BytesLike,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, string, string] & {
+      [BigNumber, string, string, string] & {
         amount: BigNumber;
         to: string;
         token: string;
+        description: string;
       }
     >;
 
@@ -109,10 +110,11 @@ export class Short extends Contract {
       _short: BytesLike,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, string, string] & {
+      [BigNumber, string, string, string] & {
         amount: BigNumber;
         to: string;
         token: string;
+        description: string;
       }
     >;
 
@@ -121,14 +123,16 @@ export class Short extends Contract {
       _amount: BigNumberish,
       _to: string,
       _token: string,
+      _description: string,
       overrides?: Overrides
     ): Promise<ContractTransaction>;
 
-    "create(bytes32,uint256,address,address)"(
+    "create(bytes32,uint256,address,address,string)"(
       _short: BytesLike,
       _amount: BigNumberish,
       _to: string,
       _token: string,
+      _description: string,
       overrides?: Overrides
     ): Promise<ContractTransaction>;
 
@@ -152,14 +156,16 @@ export class Short extends Contract {
       _amount: BigNumberish,
       _to: string,
       _token: string,
+      _description: string,
       overrides?: Overrides
     ): Promise<ContractTransaction>;
 
-    "update(bytes32,uint256,address,address)"(
+    "update(bytes32,uint256,address,address,string)"(
       _short: BytesLike,
       _amount: BigNumberish,
       _to: string,
       _token: string,
+      _description: string,
       overrides?: Overrides
     ): Promise<ContractTransaction>;
   };
@@ -180,10 +186,11 @@ export class Short extends Contract {
     _short: BytesLike,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, string, string] & {
+    [BigNumber, string, string, string] & {
       amount: BigNumber;
       to: string;
       token: string;
+      description: string;
     }
   >;
 
@@ -191,10 +198,11 @@ export class Short extends Contract {
     _short: BytesLike,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, string, string] & {
+    [BigNumber, string, string, string] & {
       amount: BigNumber;
       to: string;
       token: string;
+      description: string;
     }
   >;
 
@@ -203,14 +211,16 @@ export class Short extends Contract {
     _amount: BigNumberish,
     _to: string,
     _token: string,
+    _description: string,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
-  "create(bytes32,uint256,address,address)"(
+  "create(bytes32,uint256,address,address,string)"(
     _short: BytesLike,
     _amount: BigNumberish,
     _to: string,
     _token: string,
+    _description: string,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
@@ -234,14 +244,16 @@ export class Short extends Contract {
     _amount: BigNumberish,
     _to: string,
     _token: string,
+    _description: string,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
-  "update(bytes32,uint256,address,address)"(
+  "update(bytes32,uint256,address,address,string)"(
     _short: BytesLike,
     _amount: BigNumberish,
     _to: string,
     _token: string,
+    _description: string,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
@@ -262,10 +274,11 @@ export class Short extends Contract {
       _short: BytesLike,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, string, string] & {
+      [BigNumber, string, string, string] & {
         amount: BigNumber;
         to: string;
         token: string;
+        description: string;
       }
     >;
 
@@ -273,10 +286,11 @@ export class Short extends Contract {
       _short: BytesLike,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, string, string] & {
+      [BigNumber, string, string, string] & {
         amount: BigNumber;
         to: string;
         token: string;
+        description: string;
       }
     >;
 
@@ -285,14 +299,16 @@ export class Short extends Contract {
       _amount: BigNumberish,
       _to: string,
       _token: string,
+      _description: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "create(bytes32,uint256,address,address)"(
+    "create(bytes32,uint256,address,address,string)"(
       _short: BytesLike,
       _amount: BigNumberish,
       _to: string,
       _token: string,
+      _description: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -316,14 +332,16 @@ export class Short extends Contract {
       _amount: BigNumberish,
       _to: string,
       _token: string,
+      _description: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "update(bytes32,uint256,address,address)"(
+    "update(bytes32,uint256,address,address,string)"(
       _short: BytesLike,
       _amount: BigNumberish,
       _to: string,
       _token: string,
+      _description: string,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -355,14 +373,16 @@ export class Short extends Contract {
       _amount: BigNumberish,
       _to: string,
       _token: string,
+      _description: string,
       overrides?: Overrides
     ): Promise<BigNumber>;
 
-    "create(bytes32,uint256,address,address)"(
+    "create(bytes32,uint256,address,address,string)"(
       _short: BytesLike,
       _amount: BigNumberish,
       _to: string,
       _token: string,
+      _description: string,
       overrides?: Overrides
     ): Promise<BigNumber>;
 
@@ -386,14 +406,16 @@ export class Short extends Contract {
       _amount: BigNumberish,
       _to: string,
       _token: string,
+      _description: string,
       overrides?: Overrides
     ): Promise<BigNumber>;
 
-    "update(bytes32,uint256,address,address)"(
+    "update(bytes32,uint256,address,address,string)"(
       _short: BytesLike,
       _amount: BigNumberish,
       _to: string,
       _token: string,
+      _description: string,
       overrides?: Overrides
     ): Promise<BigNumber>;
   };
@@ -426,14 +448,16 @@ export class Short extends Contract {
       _amount: BigNumberish,
       _to: string,
       _token: string,
+      _description: string,
       overrides?: Overrides
     ): Promise<PopulatedTransaction>;
 
-    "create(bytes32,uint256,address,address)"(
+    "create(bytes32,uint256,address,address,string)"(
       _short: BytesLike,
       _amount: BigNumberish,
       _to: string,
       _token: string,
+      _description: string,
       overrides?: Overrides
     ): Promise<PopulatedTransaction>;
 
@@ -460,14 +484,16 @@ export class Short extends Contract {
       _amount: BigNumberish,
       _to: string,
       _token: string,
+      _description: string,
       overrides?: Overrides
     ): Promise<PopulatedTransaction>;
 
-    "update(bytes32,uint256,address,address)"(
+    "update(bytes32,uint256,address,address,string)"(
       _short: BytesLike,
       _amount: BigNumberish,
       _to: string,
       _token: string,
+      _description: string,
       overrides?: Overrides
     ): Promise<PopulatedTransaction>;
   };

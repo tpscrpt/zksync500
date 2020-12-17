@@ -6,6 +6,7 @@ struct ShortData {
   address to;
   address token;
   address creator;
+  string description;
 }
 
 contract Short {
@@ -23,25 +24,31 @@ contract Short {
     _;
   }
 
+  modifier newShort(bytes32 _short) {
+    require(shortIds[_short] == 0, "SHORT_ALREADY_EXISTS");
+    _;
+  }
+
   function create(
     bytes32 _short,
     uint256 _amount,
     address _to,
-    address _token
-  ) external {
-    require(shortIds[_short] == 0, "SHORT_ALREADY_EXISTS");
+    address _token,
+    string calldata _description
+  ) external newShort(_short) {
     shortCounter ++;
     shortIds[_short] = shortCounter;
-    shorts[shortCounter] = ShortData(_amount, _to, _token, msg.sender);
+    shorts[shortCounter] = ShortData(_amount, _to, _token, msg.sender, _description);
   }
 
   function update(
     bytes32 _short,
     uint256 _amount,
     address _to,
-    address _token
+    address _token,
+    string calldata _description
   ) external onlyCreator(_short) {
-    shorts[shortIds[_short]] = ShortData(_amount, _to, _token, msg.sender);
+    shorts[shortIds[_short]] = ShortData(_amount, _to, _token, msg.sender, _description);
   }
 
   function changeCreator(
@@ -51,11 +58,12 @@ contract Short {
     shorts[shortIds[_short]].creator = _newCreator;
   }
 
-  function convert(bytes32 _short) external view returns (uint256 amount, address to, address token) {
+  function convert(bytes32 _short) external view returns (uint256 amount, address to, address token, string memory description) {
     return (
       shorts[shortIds[_short]].amount,
       shorts[shortIds[_short]].to,
-      shorts[shortIds[_short]].token
+      shorts[shortIds[_short]].token,
+      shorts[shortIds[_short]].description
     );
   }
 }
