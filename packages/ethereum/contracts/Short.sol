@@ -17,8 +17,6 @@ contract Short {
   mapping(bytes32 => uint256) public shortIds;
   mapping(uint256 => ShortData) shorts;
 
-  constructor() {}
-
   modifier onlyCreator(bytes32 _short) {
     require(shorts[shortIds[_short]].creator == msg.sender, "ONLY_CREATOR_CAN_UPDATE");
     _;

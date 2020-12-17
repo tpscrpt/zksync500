@@ -7,7 +7,7 @@ type Props = {
   txHash: string;
 };
 
-export function EtherscanLink({ txHash }: Props): JSX.Element {
+export function ZKScanLink({ txHash }: Props): JSX.Element {
   const { chainId } = useWeb3React<Web3Provider>();
 
   return (
@@ -18,11 +18,11 @@ export function EtherscanLink({ txHash }: Props): JSX.Element {
           target="_blank"
           href={
             chainId === 1
-              ? `https://etherscan.io/tx/${txHash}`
-              : `https://${networks[chainId]}.etherscan.io/tx/${txHash}`
+              ? `https://zkscan.io/transactions/${txHash}`
+              : `https://${networks[chainId]}.zkscan.io/transactions/${txHash}`
           }
         >
-          View on etherscan
+          View on zkscan
         </a>
       ) : null}
     </>

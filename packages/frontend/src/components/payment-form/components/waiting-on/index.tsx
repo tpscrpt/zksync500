@@ -1,5 +1,5 @@
 import * as React from "react";
-import { EtherscanLink } from "../../../etherscan-link";
+import { ZKScanLink } from "../../../zkscan-link";
 
 type Props = {
   txHash: string;
@@ -10,7 +10,7 @@ export function WaitingOn({ txHash }: Props): JSX.Element {
     <>
       <div className="spinner"></div>
       <p>Waiting for transaction to complete</p>
-      <EtherscanLink txHash={txHash} />
+      <ZKScanLink txHash={txHash} />
     </>
   );
 }

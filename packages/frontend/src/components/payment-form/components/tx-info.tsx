@@ -1,6 +1,6 @@
 import * as React from "react";
 import { TransactionInfo } from "zksync-checkout/build/types";
-import { EtherscanLink } from "../../etherscan-link";
+import { ZKScanLink } from "../../zkscan-link";
 
 type TxInfoProps = {
   transactionInfo: TransactionInfo;
@@ -12,7 +12,7 @@ export function TxInfo(props: TxInfoProps): JSX.Element {
 
   return (
     <>
-      <EtherscanLink txHash={transactionInfo.hash} />
+      <ZKScanLink txHash={transactionInfo.hash} />
       <span>Status: {transactionInfo.success ? "Success" : "Failure"}</span>
       {transactionInfo.failReason ? <span>Reason: {transactionInfo.failReason}</span> : null}
       <button onClick={() => props.setTransactionInfo(undefined)}>Close</button>

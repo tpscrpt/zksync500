@@ -80,7 +80,14 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.EnvironmentPlugin(["NODE_ENV", "RPC_URL_1", "RPC_URL_4"]),
+    new webpack.EnvironmentPlugin([
+      "NODE_ENV",
+      "RPC_URL_1",
+      "RPC_URL_4",
+      "PROD_FORTMATIC_API_KEY",
+      "DEV_FORTMATIC_API_KEY",
+      "PORTIS_DAPP_ID",
+    ]),
     new CopyPlugin({
       patterns: [{ from: "public/favicon.ico", to: "favicon.ico" }],
     }),

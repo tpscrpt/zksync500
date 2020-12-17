@@ -5,14 +5,23 @@ import { Link } from "react-router-dom";
 import { useEagerConnect } from "../../hooks/use-eager-connect";
 import { useInactiveListener } from "../../hooks/use-inactive-listener";
 import { Web3Provider } from "@ethersproject/providers";
-import { authereum, fortmatic, injected, portis, walletconnect } from "../../utils/connectors";
+import {
+  authereum,
+  fortmatic,
+  injected,
+  portis,
+  walletconnect,
+  network,
+} from "../../utils/connectors";
 import Web3Image from "../../assets/connectors/Web3.png";
 import WalletConnectImage from "../../assets/connectors/WalletConnect.svg";
 import AuthereumImage from "../../assets/connectors/Authereum.svg";
 import FortmaticImage from "../../assets/connectors/Fortmatic.jpg";
 import PortisImage from "../../assets/connectors/Portis.jpg";
-import WalletIcon from "../../assets/wallet.svg";
+import MetamaskImage from "../../assets/connectors/Metamask.jpg";
+import WalletIcon from "../../assets/purse.svg";
 import { Spinner } from "../spinner";
+import { ModalContext } from "./modal-context";
 
 enum ConnectorNames {
   Injected = "Web3",
@@ -40,12 +49,16 @@ const connectorImagesByName: { [connectorName in ConnectorNames]: string } = {
 
 export function Nav(): JSX.Element {
   const [pathname, setPathname] = React.useState(window.location.pathname);
-  const [showModal, setShowModal] = React.useState(false);
+  const { showModal, setShowModal } = React.useContext(ModalContext);
   const context = useWeb3React<Web3Provider>();
   const { connector, library, chainId, account, activate, deactivate, active, error } = context;
 
   // handle logic to recognize the connector currently being activated
   const [activatingConnector, setActivatingConnector] = React.useState<any>();
+
+  React.useEffect(() => {
+    console.log(connector);
+  });
 
   React.useEffect(() => {
     if (activatingConnector && activatingConnector === connector) {
@@ -61,7 +74,7 @@ export function Nav(): JSX.Element {
 
   return (
     <>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal?.(false)}>
         <Modal.Dialog style={{ minWidth: "280px", width: "90%" }}>
           <Modal.Header closeButton>
             <Modal.Title>Connect</Modal.Title>
@@ -80,8 +93,12 @@ export function Nav(): JSX.Element {
                   const currentConnector = connectorsByName[connectorName as ConnectorNames];
                   const activating = currentConnector === activatingConnector;
                   const connected = currentConnector === connector;
-                  const disabled = !triedEager || !!activatingConnector || connected || !!error;
-
+                  const disabled =
+                    (!triedEager && connector != network) ||
+                    !!activatingConnector ||
+                    connected ||
+                    !!error;
+                  console.log(!triedEager, !!activatingConnector, connected, error);
                   return (
                     <Button
                       variant={connected ? "primary" : "light"}
@@ -105,7 +122,11 @@ export function Nav(): JSX.Element {
                       ) : (
                         <>
                           <img
-                            src={connectorImagesByName[connectorName as ConnectorNames]}
+                            src={
+                              library?.provider.isMetaMask && connectorName === "Web3"
+                                ? MetamaskImage
+                                : connectorImagesByName[connectorName as ConnectorNames]
+                            }
                             className="mr-2"
                             style={{ maxWidth: "4vmax", maxHeight: "4vmax" }}
                           />
@@ -127,6 +148,7 @@ export function Nav(): JSX.Element {
                     minWidth: "150px",
                     width: "80%",
                   }}
+                  disabled={connector == network}
                   onClick={deactivate}
                 >
                   Disconnect
@@ -135,59 +157,40 @@ export function Nav(): JSX.Element {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            {connector ? (
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  justifyContent: "flex-start",
-                }}
-              >
-                <span style={{ textOverflow: "ellipsis" }}>
-                  Address: {account?.slice(0, 6) + "..." + account?.slice(account.length - 4)}
-                </span>
-                <div>Chain: {chainId}</div>
-              </div>
-            ) : (
-              <div>Not connected</div>
-            )}
+            {connector == network || active ? null : <div>Not connected</div>}
           </Modal.Footer>
         </Modal.Dialog>
       </Modal>
       <Navbar bg="light">
-        <Button
-          variant="light"
-          className="p-2 ml-2"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            height: "100%",
-            position: "absolute",
-            top: 0,
-            left: 0,
-          }}
-          onClick={() => setShowModal(true)}
-        >
-          <img
-            src={WalletIcon}
-            style={{
-              height: "100%",
-            }}
-          />
-        </Button>
-
         <BSNav className="mx-auto">
-          <BSNav.Link
-            as={Link}
-            to="/$"
-            active={pathname === "/$"}
-            onClick={() => setPathname("/$")}
-          >
+          <BSNav.Item className="mr-3">
+            <Button
+              variant="light"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                height: "100%",
+              }}
+              onClick={() => setShowModal?.(true)}
+            >
+              <img
+                src={WalletIcon}
+                style={{
+                  height: "2vmax",
+                }}
+              />
+            </Button>
+          </BSNav.Item>
+          <BSNav.Link as={Link} to="/" active={pathname === "/"} onClick={() => setPathname("/")}>
             Send
           </BSNav.Link>
-          <BSNav.Link as={Link} to="/" active={pathname === "/"} onClick={() => setPathname("/")}>
+
+          <BSNav.Link
+            as={Link}
+            to="/create"
+            active={pathname === "/create"}
+            onClick={() => setPathname("/create")}
+          >
             Create Link
           </BSNav.Link>
         </BSNav>
