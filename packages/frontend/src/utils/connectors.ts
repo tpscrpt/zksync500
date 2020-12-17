@@ -5,6 +5,8 @@ import { FortmaticConnector } from "@web3-react/fortmatic-connector";
 import { PortisConnector } from "@web3-react/portis-connector";
 import { NetworkConnector } from "@web3-react/network-connector";
 
+console.log(process.env.NODE_ENV);
+
 const POLLING_INTERVAL = 12000;
 
 const RPC_URLS: { [chainId: number]: string } = {

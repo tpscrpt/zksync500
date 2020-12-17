@@ -45,7 +45,6 @@ export function PaymentForm(): JSX.Element {
       contract
         ?.convert(formatBytes32String(short))
         .then(({ amount, to, token: tokenAddress, description }) => {
-          console.log(amount, to, tokenAddress, description);
           const realAmount = Big(amount.toString())
             .div(
               Big(10).pow(

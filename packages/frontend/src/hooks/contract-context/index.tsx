@@ -20,7 +20,6 @@ export const ContractProvider = ({ children }: { children: React.ReactNode }): J
 
   useEffect(() => {
     if (active && !contract && library && chainId) {
-      console.log(library);
       setContract(new ethers.Contract(contractAddress[chainId], abi, library) as Short);
     }
   }, [active]);

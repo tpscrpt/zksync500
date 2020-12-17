@@ -57,10 +57,6 @@ export function Nav(): JSX.Element {
   const [activatingConnector, setActivatingConnector] = React.useState<any>();
 
   React.useEffect(() => {
-    console.log(connector);
-  });
-
-  React.useEffect(() => {
     if (activatingConnector && activatingConnector === connector) {
       setActivatingConnector(undefined);
     }
@@ -98,7 +94,6 @@ export function Nav(): JSX.Element {
                     !!activatingConnector ||
                     connected ||
                     !!error;
-                  console.log(!triedEager, !!activatingConnector, connected, error);
                   return (
                     <Button
                       variant={connected ? "primary" : "light"}
